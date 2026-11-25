@@ -1,0 +1,39 @@
+# Environment variables exposed to the Linx Portal
+env:
+  - name: PORT
+    default: "8042"
+
+  # Shown on the frontend's Home page, so a change made in the Portal is visible
+  - name: MY_ENV
+    default: "hello from linx-app.yml"
+  - name: MY_SECRET_ENV
+
+  # PostgreSQL: map PG_CONNECTION_STRING, or the separate PG_* keys, to a database
+  - name: PG_CONNECTION_STRING
+  - name: PG_HOST
+  - name: PG_PORT
+  - name: PG_NAME
+  - name: PG_USER
+  - name: PG_PASSWORD
+
+  # SQL Server: map MSSQL_CONNECTION_STRING, or the separate MSSQL_* keys, to a database
+  - name: MSSQL_CONNECTION_STRING
+  - name: MSSQL_HOST
+  - name: MSSQL_PORT
+  - name: MSSQL_NAME
+  - name: MSSQL_USER
+  - name: MSSQL_PASSWORD
+
+  # Object storage: map these to a bucket
+  - name: S3_ENDPOINT_URL
+  - name: S3_BUCKET_NAME
+  - name: S3_ACCESS_KEY
+  - name: S3_SECRET_KEY
+
+  # Persistent disk: the path the disk is mounted at
+  - name: DISK_PATH
+
+# Linx Portal configuration for the application
+port:
+  default: 8042
+  linked_env_var: PORT
