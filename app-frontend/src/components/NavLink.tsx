@@ -11,8 +11,8 @@ export function NavLink({ href, children }: { href: string; children: ReactNode 
       href={href}
       aria-current={active ? 'page' : undefined}
       className={[
-        'font-semibold hover:underline',
-        active ? 'text-ink underline' : 'text-accent',
+        'font-semibold underline-offset-4 hover:underline',
+        active ? 'text-bar-ink underline' : 'text-bar-ink/70 hover:text-bar-ink',
       ].join(' ')}
     >
       {children}

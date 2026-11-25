@@ -90,7 +90,7 @@ export default async function HomePage() {
           <Link
             key={area.href}
             href={area.href}
-            className="rounded-lg border border-line bg-panel px-5 py-4 hover:border-accent"
+            className="rounded-xl border border-line bg-panel px-5 py-4 shadow-card transition-colors hover:border-accent"
           >
             <h2 className="mb-1 text-lg font-semibold text-accent">{area.title} →</h2>
             <p className="text-sm text-muted">{area.text}</p>

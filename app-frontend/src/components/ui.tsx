@@ -2,7 +2,7 @@ import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode, TextareaHTML
 
 export function Panel({ title, children }: { title?: string; children: ReactNode }) {
   return (
-    <section className="mb-5 rounded-lg border border-line bg-panel px-5 py-4">
+    <section className="mb-5 rounded-xl border border-line bg-panel px-6 py-5 shadow-card">
       {title && <h2 className="mb-3 text-lg font-semibold">{title}</h2>}
       {children}
     </section>

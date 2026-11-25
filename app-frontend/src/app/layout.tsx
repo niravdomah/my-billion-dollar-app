@@ -12,7 +12,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <body className="min-h-screen bg-page font-sans text-ink antialiased">
-        <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 border-b border-line bg-panel px-6 py-4">
+        <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 bg-bar px-6 py-4 text-bar-ink shadow-card">
           <Link href="/" className="mr-4 text-lg font-bold">
             💰 My Billion Dollar App
           </Link>
