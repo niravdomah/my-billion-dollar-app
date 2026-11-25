@@ -101,20 +101,6 @@ static class Postgres
             return Results.Ok(rows);
         }).WithSummary("Lists the notes in portal_check, newest first.");
 
-        // Any PostgreSQL login can list every database on its server, so this shows who shares it.
-        pg.MapGet("/db/visible", async () =>
-        {
-            await using var connection = await OpenAsync();
-            await using var command = new NpgsqlCommand("SELECT datname FROM pg_database ORDER BY datname", connection);
-            await using var reader = await command.ExecuteReaderAsync();
-            var names = new List<string>();
-            while (await reader.ReadAsync())
-            {
-                names.Add(reader.GetString(0));
-            }
-            return Results.Ok(names);
-        }).WithSummary("Lists the databases this login can see.");
-
         pg.MapGet("/db/drop", async () =>
         {
             await using var connection = await OpenAsync();

@@ -20,7 +20,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <NavLink href="/postgres">PostgreSQL</NavLink>
           <NavLink href="/mssql">SQL Server</NavLink>
           <NavLink href="/s3">Object storage</NavLink>
-          <NavLink href="/disk">Disk</NavLink>
         </nav>
         <main className="mx-auto max-w-[980px] px-6 py-8">{children}</main>
       </body>

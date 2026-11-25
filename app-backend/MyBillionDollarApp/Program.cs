@@ -46,6 +46,5 @@ app.MapGet("/settings", () =>
 app.MapPostgres();
 app.MapSqlServer();
 app.MapObjectStorage();
-app.MapDisk();
 
 app.Run();

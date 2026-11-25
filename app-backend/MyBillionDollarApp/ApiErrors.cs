@@ -20,7 +20,6 @@ static class ApiErrors
             {
                 NotConfiguredException => StatusCodes.Status503ServiceUnavailable,
                 BadRequestException or BadHttpRequestException => StatusCodes.Status400BadRequest,
-                FileNotFoundException or DirectoryNotFoundException => StatusCodes.Status404NotFound,
                 AmazonS3Exception { StatusCode: HttpStatusCode.NotFound } => StatusCodes.Status404NotFound,
                 _ => StatusCodes.Status500InternalServerError,
             };

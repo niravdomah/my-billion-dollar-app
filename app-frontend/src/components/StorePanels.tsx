@@ -7,24 +7,16 @@ import { useAction } from '@/lib/use-action';
 import { StatusBox } from './StatusBox';
 import { Button, FieldLabel, Panel, TextArea, TextInput } from './ui';
 
-interface StorePanelsProps {
-  basePath: '/s3' | '/disk';
-  keyLabel: string;
-  onStored: () => void;
-}
-
-// Writing a text file and uploading a file work the same for object storage and the disk.
-export function StorePanels({ basePath, keyLabel, onStored }: StorePanelsProps) {
+export function StorePanels({ onStored }: { onStored: () => void }) {
   const write = useAction();
   const upload = useAction();
   const [key, setKey] = useState('');
   const [value, setValue] = useState('');
   const [uploadKey, setUploadKey] = useState('');
   const fileInput = useRef<HTMLInputElement>(null);
-  const id = basePath.slice(1);
 
   async function writeText() {
-    const done = await write.run(() => get<string>(`${basePath}/write?${query({ key, value })}`), (m) => m);
+    const done = await write.run(() => get<string>(`/s3/write?${query({ key, value })}`), (m) => m);
     if (done !== undefined) onStored();
   }
 
@@ -35,8 +27,8 @@ export function StorePanels({ basePath, keyLabel, onStored }: StorePanelsProps) 
     form.append('file', file);
     if (uploadKey.trim()) form.append('key', uploadKey.trim());
     const done = await upload.run(
-      () => postForm<{ key?: string; path?: string; size: number }>(`${basePath}/upload`, form),
-      (d) => `Uploaded ${d.key ?? d.path} (${formatBytes(d.size)}).`,
+      () => postForm<{ key: string; size: number }>('/s3/upload', form),
+      (d) => `Uploaded ${d.key} (${formatBytes(d.size)}).`,
     );
     if (!done) return;
     if (fileInput.current) fileInput.current.value = '';
@@ -47,11 +39,11 @@ export function StorePanels({ basePath, keyLabel, onStored }: StorePanelsProps) 
   return (
     <>
       <Panel title="Write a text file">
-        <FieldLabel htmlFor={`${id}-key`}>{keyLabel}</FieldLabel>
-        <TextInput id={`${id}-key`} value={key} placeholder="notes/hello.txt" onChange={(e) => setKey(e.target.value)} />
+        <FieldLabel htmlFor="s3-key">Key</FieldLabel>
+        <TextInput id="s3-key" value={key} placeholder="notes/hello.txt" onChange={(e) => setKey(e.target.value)} />
         <div className="mt-3">
-          <FieldLabel htmlFor={`${id}-value`}>Contents</FieldLabel>
-          <TextArea id={`${id}-value`} value={value} placeholder="Hello from the demo" onChange={(e) => setValue(e.target.value)} />
+          <FieldLabel htmlFor="s3-value">Contents</FieldLabel>
+          <TextArea id="s3-value" value={value} placeholder="Hello from the demo" onChange={(e) => setValue(e.target.value)} />
         </div>
         <div className="mt-2">
           <Button disabled={write.busy || !key.trim()} onClick={writeText}>
@@ -62,12 +54,12 @@ export function StorePanels({ basePath, keyLabel, onStored }: StorePanelsProps) 
       </Panel>
 
       <Panel title="Upload a file">
-        <FieldLabel htmlFor={`${id}-file`}>File</FieldLabel>
-        <input id={`${id}-file`} ref={fileInput} type="file" className="text-sm" />
+        <FieldLabel htmlFor="s3-file">File</FieldLabel>
+        <input id="s3-file" ref={fileInput} type="file" className="text-sm" />
         <div className="mt-3">
-          <FieldLabel htmlFor={`${id}-upload-key`}>{keyLabel} (optional, defaults to the file name)</FieldLabel>
+          <FieldLabel htmlFor="s3-upload-key">Key (optional, defaults to the file name)</FieldLabel>
           <TextInput
-            id={`${id}-upload-key`}
+            id="s3-upload-key"
             value={uploadKey}
             placeholder="uploads/picture.png"
             onChange={(e) => setUploadKey(e.target.value)}

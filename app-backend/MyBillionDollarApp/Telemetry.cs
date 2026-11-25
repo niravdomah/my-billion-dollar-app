@@ -46,18 +46,5 @@ static class AppMetrics
         Meter.CreateCounter<long>("sql_queries_total", description: "Free-form SQL queries run");
 
     public static readonly Counter<long> FilesStored =
-        Meter.CreateCounter<long>("files_stored_total", description: "Files written to object storage or the disk");
-
-    static AppMetrics() =>
-        Meter.CreateObservableGauge("disk_free_bytes", DiskFreeBytes, unit: "By", description: "Free space on the disk at DISK_PATH");
-
-    private static IEnumerable<Measurement<long>> DiskFreeBytes()
-    {
-        var path = Env.Get("DISK_PATH");
-        if (path is null || !Directory.Exists(path))
-        {
-            yield break;
-        }
-        yield return new Measurement<long>(new DriveInfo(path).AvailableFreeSpace);
-    }
+        Meter.CreateCounter<long>("files_stored_total", description: "Files written to object storage");
 }

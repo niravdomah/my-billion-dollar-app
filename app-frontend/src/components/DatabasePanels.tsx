@@ -71,14 +71,6 @@ export function DatabasePanels({ engine, tableName, queryLabel, placeholder }: D
     if (all.ok) setTable(notesTable(all.data));
   }
 
-  async function showDatabases() {
-    const data = await notes.run(
-      () => get<string[]>(`/${engine}/db/visible`),
-      (d) => `This login can see ${d.length} database(s).`,
-    );
-    if (data) setTable({ columns: ['database'], rows: data.map((name) => [name]) });
-  }
-
   async function simple(path: string) {
     setTable(null);
     await notes.run(() => get<string>(`/${engine}/db/${path}`), (message) => message);
@@ -115,9 +107,6 @@ export function DatabasePanels({ engine, tableName, queryLabel, placeholder }: D
           </Button>
           <Button variant="secondary" disabled={notes.busy} onClick={showNotes}>
             Show notes
-          </Button>
-          <Button variant="secondary" disabled={notes.busy} onClick={showDatabases}>
-            Visible databases
           </Button>
           <Button variant="danger" disabled={notes.busy} onClick={() => simple('drop')}>
             Drop table

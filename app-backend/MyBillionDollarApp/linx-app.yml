@@ -20,9 +20,6 @@ env:
   - name: S3_ACCESS_KEY
   - name: S3_SECRET_KEY
 
-  # Persistent disk: the path the disk is mounted at
-  - name: DISK_PATH
-
 # Linx Portal configuration for the application
 port:
   default: 8042

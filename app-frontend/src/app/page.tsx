@@ -28,7 +28,6 @@ const AREAS = [
   { href: '/postgres', title: 'PostgreSQL', text: 'Connect, keep notes in a table, and run SQL.' },
   { href: '/mssql', title: 'SQL Server', text: 'The same, against SQL Server with T-SQL.' },
   { href: '/s3', title: 'Object storage', text: 'List, write, upload, download and delete objects in a bucket.' },
-  { href: '/disk', title: 'Disk', text: 'Check the persistent disk, and work with the files on it.' },
 ];
 
 export default async function HomePage() {
@@ -86,7 +85,7 @@ export default async function HomePage() {
         )}
       </Panel>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-3">
         {AREAS.map((area) => (
           <Link
             key={area.href}

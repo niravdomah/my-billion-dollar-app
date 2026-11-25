@@ -96,21 +96,6 @@ static class SqlServer
             return Results.Ok(rows);
         }).WithSummary("Lists the notes in dbo.portal_check, newest first.");
 
-        // Shows the credential is scoped to its own database: on a shared server this returns the one
-        // database and master, never a neighbour's.
-        mssql.MapGet("/db/visible", async () =>
-        {
-            await using var connection = await OpenAsync();
-            await using var command = new SqlCommand("SELECT name FROM sys.databases ORDER BY name", connection);
-            await using var reader = await command.ExecuteReaderAsync();
-            var names = new List<string>();
-            while (await reader.ReadAsync())
-            {
-                names.Add(reader.GetString(0));
-            }
-            return Results.Ok(names);
-        }).WithSummary("Lists the databases this login can see.");
-
         mssql.MapGet("/db/drop", async () =>
         {
             await using var connection = await OpenAsync();

@@ -78,7 +78,7 @@ export function ObjectStoragePanels() {
         {preview !== null && <TextPreview text={preview} />}
       </Panel>
 
-      <StorePanels basePath="/s3" keyLabel="Key" onStored={refresh} />
+      <StorePanels onStored={refresh} />
     </>
   );
 }

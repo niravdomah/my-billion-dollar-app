@@ -15,9 +15,8 @@ backend instance's **internal address**, so the two talk to each other inside th
 The pages exercise what the Portal provides:
 
 - **PostgreSQL** and **SQL Server**: connection details, a `portal_check` notes table (create, add, read, drop),
-  the databases the login can see, and a box that runs any SQL.
+  and a box that runs any SQL.
 - **Object storage**: list, write, upload, read, download and delete objects in a bucket.
-- **Disk**: a health check, capacity, and the files on the persistent disk.
 - **Home**: the backend address and whether it answers, and the `MY_ENV` / `MY_SECRET_ENV` settings (the
   secret's value is never shown).
 
@@ -33,7 +32,7 @@ dotnet run --project app-backend/MyBillionDollarApp      # http://localhost:8042
 cd app-frontend && npm install && npm run dev            # http://localhost:3000
 ```
 
-Set the backend variables below in your shell to connect it to a database, bucket or folder. To run the
+Set the backend variables below in your shell to connect it to a database or bucket. To run the
 backend on another port, set `PORT`, and point the frontend at it with `SETTING__BackendUrl` in
 `app-frontend/.env.local`.
 
@@ -52,8 +51,7 @@ backend on another port, set `PORT`, and point the frontend at it with `SETTING_
 Both apps send their own metrics and logs to the Portal over OpenTelemetry, using the endpoint the Portal
 injects. Nothing needs configuring. Metrics are exported every 15 seconds:
 
-- Backend: `api_requests_total`, `notes_written_total`, `sql_queries_total`, `files_stored_total`,
-  `disk_free_bytes`.
+- Backend: `api_requests_total`, `notes_written_total`, `sql_queries_total`, `files_stored_total`.
 - Frontend: `backend_calls_total`, `backend_call_failures_total`.
 
 ## Backend variables
@@ -66,7 +64,6 @@ All are optional: a page whose service isn't configured says so.
 | `PG_CONNECTION_STRING` | A PostgreSQL database's connection string, used exactly as given |
 | `MSSQL_CONNECTION_STRING` | A SQL Server database's connection string, used exactly as given |
 | `S3_ENDPOINT_URL`, `S3_BUCKET_NAME`, `S3_ACCESS_KEY`, `S3_SECRET_KEY` | The bucket (path-style addressing) |
-| `DISK_PATH` | The folder the persistent disk is mounted at; every file operation stays inside it |
 | `PORT` | The port to listen on (default 8042) |
 
 ## Frontend variables
