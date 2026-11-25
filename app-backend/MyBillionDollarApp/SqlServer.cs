@@ -6,28 +6,7 @@ static class SqlServer
 {
     // The Linx Portal maps MSSQL_CONNECTION_STRING to a database's connection_string key. The region decides
     // the TLS terms in it, so the string is used exactly as given and never rebuilt here.
-    //
-    // Without it the connection is built from the separate keys (MSSQL_HOST, MSSQL_PORT, MSSQL_NAME,
-    // MSSQL_USER, MSSQL_PASSWORD) with a hosted server's terms: encrypted, and the certificate validated.
-    private static string Source() => Env.Get("MSSQL_CONNECTION_STRING") is null ? "parts" : "connection_string";
-
-    private static string ConnectionString()
-    {
-        var connectionString = Env.Get("MSSQL_CONNECTION_STRING");
-        if (connectionString is not null) return connectionString;
-
-        var host = Env.Require("MSSQL_HOST", "MSSQL_CONNECTION_STRING");
-        var port = Env.Get("MSSQL_PORT");
-        return new SqlConnectionStringBuilder
-        {
-            DataSource = port is null ? host : $"{host},{port}",
-            InitialCatalog = Env.Require("MSSQL_NAME", "MSSQL_CONNECTION_STRING"),
-            UserID = Env.Require("MSSQL_USER", "MSSQL_CONNECTION_STRING"),
-            Password = Env.Require("MSSQL_PASSWORD", "MSSQL_CONNECTION_STRING"),
-            Encrypt = SqlConnectionEncryptOption.Mandatory,
-            TrustServerCertificate = false,
-        }.ConnectionString;
-    }
+    private static string ConnectionString() => Env.Require("MSSQL_CONNECTION_STRING");
 
     private static async Task<SqlConnection> OpenAsync()
     {
@@ -42,7 +21,7 @@ static class SqlServer
 
         mssql.MapGet("/config", () =>
         {
-            if (Env.Get("MSSQL_CONNECTION_STRING") is null && Env.Get("MSSQL_HOST") is null)
+            if (Env.Get("MSSQL_CONNECTION_STRING") is null)
             {
                 return Results.Ok(new { configured = false });
             }
@@ -50,7 +29,6 @@ static class SqlServer
             return Results.Ok(new
             {
                 configured = true,
-                source = Source(),
                 server = settings.DataSource,
                 database = settings.InitialCatalog,
                 user = settings.UserID,
@@ -69,7 +47,6 @@ static class SqlServer
             await reader.ReadAsync();
             return Results.Ok(new
             {
-                source = Source(),
                 server = settings.DataSource,
                 database = reader.GetString(0),
                 login = reader.GetString(1),

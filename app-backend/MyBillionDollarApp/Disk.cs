@@ -8,7 +8,7 @@ static class Disk
 
     private static string Root()
     {
-        var path = Env.Get("DISK_PATH") ?? throw new NotConfiguredException("DISK_PATH is not set.");
+        var path = Env.Require("DISK_PATH");
         return Directory.Exists(path)
             ? Path.GetFullPath(path)
             : throw new NotConfiguredException($"DISK_PATH {path} does not exist.");

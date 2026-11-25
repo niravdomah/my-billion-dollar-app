@@ -5,21 +5,18 @@ namespace MyBillionDollarApp;
 
 static class ObjectStorage
 {
-    private const string Alternative = "S3_ENDPOINT_URL";
-
     // The Linx Portal's object stores address buckets path-style only, so ForcePathStyle cannot be dropped.
     private static AmazonS3Client Client() => new(
-        Env.Require("S3_ACCESS_KEY", Alternative),
-        Env.Require("S3_SECRET_KEY", Alternative),
+        Env.Require("S3_ACCESS_KEY"),
+        Env.Require("S3_SECRET_KEY"),
         new AmazonS3Config
         {
-            ServiceURL = Env.Get("S3_ENDPOINT_URL") ?? throw new NotConfiguredException("S3_ENDPOINT_URL is not set."),
+            ServiceURL = Env.Require("S3_ENDPOINT_URL"),
             ForcePathStyle = true,
             AuthenticationRegion = "us-east-1",
         });
 
-    private static string Bucket() =>
-        Env.Get("S3_BUCKET_NAME") ?? throw new NotConfiguredException("S3_BUCKET_NAME is not set.");
+    private static string Bucket() => Env.Require("S3_BUCKET_NAME");
 
     private static string RequireKey(string? key) =>
         string.IsNullOrWhiteSpace(key) ? throw new BadRequestException("Enter a key first.") : key.Trim();

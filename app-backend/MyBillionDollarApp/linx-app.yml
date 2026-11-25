@@ -8,21 +8,11 @@ env:
     default: "hello from linx-app.yml"
   - name: MY_SECRET_ENV
 
-  # PostgreSQL: map PG_CONNECTION_STRING, or the separate PG_* keys, to a database
+  # PostgreSQL: map to a PostgreSQL database's connection string
   - name: PG_CONNECTION_STRING
-  - name: PG_HOST
-  - name: PG_PORT
-  - name: PG_NAME
-  - name: PG_USER
-  - name: PG_PASSWORD
 
-  # SQL Server: map MSSQL_CONNECTION_STRING, or the separate MSSQL_* keys, to a database
+  # SQL Server: map to a SQL Server database's connection string
   - name: MSSQL_CONNECTION_STRING
-  - name: MSSQL_HOST
-  - name: MSSQL_PORT
-  - name: MSSQL_NAME
-  - name: MSSQL_USER
-  - name: MSSQL_PASSWORD
 
   # Object storage: map these to a bucket
   - name: S3_ENDPOINT_URL

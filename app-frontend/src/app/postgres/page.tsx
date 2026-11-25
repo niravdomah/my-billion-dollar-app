@@ -9,12 +9,11 @@ export default function PostgresPage() {
   return (
     <>
       <PageHeader title="PostgreSQL">
-        The backend connects with <Code>PG_CONNECTION_STRING</Code>, or with <Code>PG_HOST</Code>,{' '}
-        <Code>PG_NAME</Code>, <Code>PG_USER</Code> and <Code>PG_PASSWORD</Code>.
+        The backend connects with <Code>PG_CONNECTION_STRING</Code>.
       </PageHeader>
       <ConfigPanel
         path="/pg/config"
-        notConfigured={<>Not configured. In the Linx Portal, map the backend&apos;s PG_* variables to a database.</>}
+        notConfigured={<>Not configured. In the Linx Portal, map the backend&apos;s PG_CONNECTION_STRING to a PostgreSQL database&apos;s connection string.</>}
       />
       <DatabasePanels
         engine="pg"

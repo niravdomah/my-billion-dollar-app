@@ -63,10 +63,8 @@ All are optional: a page whose service isn't configured says so.
 | Variable | Use |
 | --- | --- |
 | `MY_ENV`, `MY_SECRET_ENV` | Shown on the Home page (the secret only as set / not set and its length) |
-| `PG_CONNECTION_STRING` | An Npgsql connection string, used exactly as given |
-| `PG_HOST`, `PG_PORT`, `PG_NAME`, `PG_USER`, `PG_PASSWORD` | Used when there's no connection string; TLS with the certificate verified |
-| `MSSQL_CONNECTION_STRING` | A SQL Server connection string, used exactly as given |
-| `MSSQL_HOST`, `MSSQL_PORT`, `MSSQL_NAME`, `MSSQL_USER`, `MSSQL_PASSWORD` | Used when there's no connection string; encrypted, with the certificate validated |
+| `PG_CONNECTION_STRING` | A PostgreSQL database's connection string, used exactly as given |
+| `MSSQL_CONNECTION_STRING` | A SQL Server database's connection string, used exactly as given |
 | `S3_ENDPOINT_URL`, `S3_BUCKET_NAME`, `S3_ACCESS_KEY`, `S3_SECRET_KEY` | The bucket (path-style addressing) |
 | `DISK_PATH` | The folder the persistent disk is mounted at; every file operation stays inside it |
 | `PORT` | The port to listen on (default 8042) |

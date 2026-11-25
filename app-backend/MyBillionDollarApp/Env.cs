@@ -6,6 +6,6 @@ static class Env
     public static string? Get(string name) =>
         Environment.GetEnvironmentVariable(name) is { Length: > 0 } value ? value : null;
 
-    public static string Require(string name, string alternative) =>
-        Get(name) ?? throw new NotConfiguredException($"Neither {alternative} nor {name} is set.");
+    public static string Require(string name) =>
+        Get(name) ?? throw new NotConfiguredException($"{name} is not set.");
 }

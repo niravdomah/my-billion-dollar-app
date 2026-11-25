@@ -1,34 +1,13 @@
-using System.Globalization;
 using Npgsql;
 
 namespace MyBillionDollarApp;
 
 static class Postgres
 {
-    // PG_CONNECTION_STRING is an Npgsql connection string, the form a .NET app reads:
-    // Host=...;Port=5432;Database=...;Username=...;Password=...;SSL Mode=VerifyFull. It is used exactly as
-    // given and never rebuilt here, so its TLS terms are whatever it states.
-    //
-    // Without it the connection is built from the separate keys (PG_HOST, PG_PORT, PG_NAME, PG_USER,
-    // PG_PASSWORD) with a hosted server's terms: TLS, and the server's certificate verified.
-    private static string Source() => Env.Get("PG_CONNECTION_STRING") is null ? "parts" : "connection_string";
-
-    private static string ConnectionString()
-    {
-        var connectionString = Env.Get("PG_CONNECTION_STRING");
-        if (connectionString is not null) return connectionString;
-
-        var port = Env.Get("PG_PORT");
-        return new NpgsqlConnectionStringBuilder
-        {
-            Host = Env.Require("PG_HOST", "PG_CONNECTION_STRING"),
-            Port = port is null ? 5432 : int.Parse(port, CultureInfo.InvariantCulture),
-            Database = Env.Require("PG_NAME", "PG_CONNECTION_STRING"),
-            Username = Env.Require("PG_USER", "PG_CONNECTION_STRING"),
-            Password = Env.Require("PG_PASSWORD", "PG_CONNECTION_STRING"),
-            SslMode = SslMode.VerifyFull,
-        }.ConnectionString;
-    }
+    // The Linx Portal maps PG_CONNECTION_STRING to a database's connection_string key, in the form Npgsql reads:
+    // Host=...;Port=5432;Database=...;Username=...;Password=...;SSL Mode=VerifyFull. The region decides the TLS
+    // terms in it, so the string is used exactly as given and never rebuilt here.
+    private static string ConnectionString() => Env.Require("PG_CONNECTION_STRING");
 
     private static async Task<NpgsqlConnection> OpenAsync()
     {
@@ -43,7 +22,7 @@ static class Postgres
 
         pg.MapGet("/config", () =>
         {
-            if (Env.Get("PG_CONNECTION_STRING") is null && Env.Get("PG_HOST") is null)
+            if (Env.Get("PG_CONNECTION_STRING") is null)
             {
                 return Results.Ok(new { configured = false });
             }
@@ -51,7 +30,6 @@ static class Postgres
             return Results.Ok(new
             {
                 configured = true,
-                source = Source(),
                 host = settings.Host,
                 port = settings.Port,
                 database = settings.Database,
@@ -74,7 +52,6 @@ static class Postgres
             await reader.ReadAsync();
             return Results.Ok(new
             {
-                source = Source(),
                 host = settings.Host,
                 port = settings.Port,
                 database = reader.GetString(0),

@@ -14,7 +14,6 @@ const LABELS: Record<string, string> = {
   port: 'Port',
   secretKeySet: 'Secret key',
   server: 'Server',
-  source: 'Source',
   sslMode: 'SSL mode',
   tls: 'TLS',
   trustServerCertificate: 'Trust server certificate',
